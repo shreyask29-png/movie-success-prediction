@@ -65,20 +65,23 @@ budget = st.number_input("💰 Budget (in millions)", min_value=1)
 popularity = st.number_input("🔥 Popularity", min_value=0.0)
 runtime = st.number_input("⏱ Runtime (minutes)", min_value=1)
 
-features = np.array([[budget, popularity, runtime]])
+# # # features = np.array([[budget, popularity, runtime]])
 
-# prediction = model.predict(features)
-# proba = model.predict_proba(features)
+# #     # prediction = model.predict(features)
+# #     # proba = model.predict_proba(features)
 
-if prediction[0] == 1:
-    st.success("🎉 HIT!")
-else:
-    st.error("❌ FLOP")
+# # if prediction[0] == 1:
+# #     st.success("🎉 HIT!")
+# # else:
+# #     st.error("❌ FLOP")
 
-st.write(f"🔥 Confidence: {proba[0][1]*100:.2f}%")
+# st.write(f"🔥 Confidence: {proba[0][1]*100:.2f}%")
 
 # 🎯 --- PREDICTION ---
 if st.button("Predict"):
+
+    features = np.array([[budget, popularity, runtime]])
+
     prediction = model.predict(features)
     proba = model.predict_proba(features)
 
@@ -87,7 +90,10 @@ if st.button("Predict"):
     else:
         st.error("❌ This movie may FLOP")
 
-    st.write(f"🔥 Confidence: {proba[0][1]*100:.2f}%")
+    confidence = proba[0][1]
+
+    st.progress(float(confidence))
+    st.write(f"🔥 Confidence: {confidence*100:.2f}%")
 
     # ✅ Confidence inside button
     confidence = proba[0][1]
